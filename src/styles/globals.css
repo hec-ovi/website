@@ -251,6 +251,17 @@ main {
   }
 }
 
+/* External-link icons: neutral by default, red on hover in dark mode */
+:root[data-theme="dark"] .group:hover .accent-hover-icon {
+  color: rgba(var(--accent-rgb), 0.9);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root[data-theme="system"] .group:hover .accent-hover-icon {
+    color: rgba(var(--accent-rgb), 0.9);
+  }
+}
+
 /* Section kicker labels: muted in light, accent in dark */
 :root[data-theme="dark"] .section-kicker {
   color: rgba(var(--accent-rgb), 0.9);
