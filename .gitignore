@@ -4,6 +4,7 @@
 # Keep this file tracked.
 !.gitignore
 !README.md
+!wrangler.jsonc
 
 # Keep only Next.js static export output.
 !out/
