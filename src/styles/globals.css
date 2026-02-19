@@ -1,26 +1,860 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* ─────────────────────────────────────────
+   LIGHT MODE (default)
+───────────────────────────────────────── */
+:root,
+:root[data-theme="light"] {
+  --background: #f6f6f6;
+  --foreground: #111111;
+  --muted: #555555;
+  --panel: rgba(255, 255, 255, 0.72);
+  --panel-border: rgba(0, 0, 0, 0.09);
+  --accent: #cc1433;
+  --accent-warm: #b85c00;
+  --accent-rgb: 204, 20, 51;
+  --accent-warm-rgb: 184, 92, 0;
+  --nav-glow-rgb: 0, 0, 0;
+  --nav-glass-bg: rgba(255, 255, 255, 0.48);
+  --input-bg: rgba(255, 255, 255, 0.9);
+  --link-soft: rgba(17, 17, 17, 0.85);
+  --grid-color: rgba(0, 0, 0, 0.06);
+  --footer-bg: #ededed;
+  --ui-radius: 3px;
+  color-scheme: light;
+}
+
+/* ─────────────────────────────────────────
+   DARK MODE
+───────────────────────────────────────── */
+:root[data-theme="dark"] {
+  --background: #0a0a0a;
+  --foreground: #ededed;
+  --muted: #858585;
+  --panel: rgba(16, 16, 16, 0.55);
+  --panel-border: rgba(255, 255, 255, 0.09);
+  --accent: #f43f5e;
+  --accent-warm: #fb923c;
+  --accent-rgb: 244, 63, 94;
+  --accent-warm-rgb: 251, 146, 60;
+  --nav-glow-rgb: 244, 63, 94;
+  --nav-glass-bg: rgba(8, 8, 8, 0.28);
+  --input-bg: rgba(14, 14, 14, 0.75);
+  --link-soft: rgba(237, 237, 237, 0.85);
+  --grid-color: rgba(255, 255, 255, 0.04);
+  --footer-bg: #060606;
+  --ui-radius: 10px;
+  color-scheme: dark;
+}
+
+/* ─────────────────────────────────────────
+   SYSTEM — DARK
+───────────────────────────────────────── */
+@media (prefers-color-scheme: dark) {
+  :root[data-theme="system"] {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+    --muted: #858585;
+    --panel: rgba(16, 16, 16, 0.55);
+    --panel-border: rgba(255, 255, 255, 0.09);
+    --accent: #f43f5e;
+    --accent-warm: #fb923c;
+    --accent-rgb: 244, 63, 94;
+    --accent-warm-rgb: 251, 146, 60;
+    --nav-glow-rgb: 244, 63, 94;
+    --nav-glass-bg: rgba(8, 8, 8, 0.28);
+    --input-bg: rgba(14, 14, 14, 0.75);
+    --link-soft: rgba(237, 237, 237, 0.85);
+    --grid-color: rgba(255, 255, 255, 0.04);
+    --footer-bg: #060606;
+    --ui-radius: 10px;
+    color-scheme: dark;
+  }
+}
+
+/* ─────────────────────────────────────────
+   SYSTEM — LIGHT
+───────────────────────────────────────── */
+@media (prefers-color-scheme: light) {
+  :root[data-theme="system"] {
+    --background: #f6f6f6;
+    --foreground: #111111;
+    --muted: #555555;
+    --panel: rgba(255, 255, 255, 0.72);
+    --panel-border: rgba(0, 0, 0, 0.09);
+    --accent: #cc1433;
+    --accent-warm: #b85c00;
+    --accent-rgb: 204, 20, 51;
+    --accent-warm-rgb: 184, 92, 0;
+    --nav-glow-rgb: 0, 0, 0;
+    --nav-glass-bg: rgba(255, 255, 255, 0.48);
+    --input-bg: rgba(255, 255, 255, 0.9);
+    --link-soft: rgba(17, 17, 17, 0.85);
+    --grid-color: rgba(0, 0, 0, 0.06);
+    --footer-bg: #ededed;
+    --ui-radius: 3px;
+    color-scheme: light;
+  }
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-muted: var(--muted);
+  --font-sans: "Inter", "Helvetica Neue", "Segoe UI", sans-serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#__next {
+  min-height: 100%;
+  width: 100%;
+  max-width: 100%;
+}
+
+html {
+  scroll-behavior: smooth;
+  overflow-x: clip;
+}
+
+/* ─────────────────────────────────────────
+   DARK MODE AMBIENT GLOW — so glass panels are visible
+───────────────────────────────────────── */
+:root[data-theme="dark"] body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 55% 45% at 15% 12%, rgba(244, 63, 94, 0.09), transparent),
+    radial-gradient(ellipse 45% 55% at 85% 78%, rgba(244, 63, 94, 0.06), transparent),
+    radial-gradient(ellipse 60% 40% at 50% 110%, rgba(180, 20, 50, 0.05), transparent);
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  :root[data-theme="system"] body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background:
+      radial-gradient(ellipse 55% 45% at 15% 12%, rgba(244, 63, 94, 0.09), transparent),
+      radial-gradient(ellipse 45% 55% at 85% 78%, rgba(244, 63, 94, 0.06), transparent),
+      radial-gradient(ellipse 60% 40% at 50% 110%, rgba(180, 20, 50, 0.05), transparent);
   }
 }
 
 body {
+  margin: 0;
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "Inter", "Helvetica Neue", "Segoe UI", sans-serif;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  line-height: 1.5;
+  overflow-x: clip;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+main {
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: clip;
+}
+
+/* ─────────────────────────────────────────
+   FORCE SHARP CORNERS
+───────────────────────────────────────── */
+.rounded-sm,
+.rounded,
+.rounded-md,
+.rounded-lg,
+.rounded-xl,
+.rounded-2xl,
+.rounded-3xl {
+  border-radius: var(--ui-radius) !important;
+}
+
+/* ─────────────────────────────────────────
+   LIGHT MODE: no accent color on text
+───────────────────────────────────────── */
+:root[data-theme="light"] .text-rose-300,
+:root[data-theme="light"] .text-rose-400,
+:root[data-theme="light"] .text-rose-500,
+:root[data-theme="light"] .text-rose-600 {
+  color: var(--foreground);
+}
+
+@media (prefers-color-scheme: light) {
+  :root[data-theme="system"] .text-rose-300,
+  :root[data-theme="system"] .text-rose-400,
+  :root[data-theme="system"] .text-rose-500,
+  :root[data-theme="system"] .text-rose-600 {
+    color: var(--foreground);
+  }
+}
+
+/* ─────────────────────────────────────────
+   DARK-ONLY ACCENT — red in dark, foreground in light
+   Used for hero heading emphasis, section emphasis spans
+───────────────────────────────────────── */
+.dark-only-accent {
+  color: var(--foreground);
+}
+
+:root[data-theme="dark"] .dark-only-accent { color: var(--accent); }
+
+@media (prefers-color-scheme: dark) {
+  :root[data-theme="system"] .dark-only-accent { color: var(--accent); }
+}
+
+/* Slightly soften primary heading text in light mode to keep contrast hierarchy */
+.light-soft-heading {
+  color: var(--foreground);
+}
+
+:root[data-theme="light"] .light-soft-heading {
+  color: var(--link-soft);
+}
+
+@media (prefers-color-scheme: light) {
+  :root[data-theme="system"] .light-soft-heading {
+    color: var(--link-soft);
+  }
+}
+
+/* Metadata labels: muted in light, accent in dark */
+.meta-dark-accent {
+  color: var(--muted);
+}
+
+:root[data-theme="dark"] .meta-dark-accent {
+  color: rgba(var(--accent-rgb), 0.88);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root[data-theme="system"] .meta-dark-accent {
+    color: rgba(var(--accent-rgb), 0.88);
+  }
+}
+
+/* Section kicker labels: muted in light, accent in dark */
+:root[data-theme="dark"] .section-kicker {
+  color: rgba(var(--accent-rgb), 0.9);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root[data-theme="system"] .section-kicker {
+    color: rgba(var(--accent-rgb), 0.9);
+  }
+}
+
+.section-space {
+  scroll-margin-top: 5rem;
+}
+
+/* ─────────────────────────────────────────
+   HERO SURFACE
+───────────────────────────────────────── */
+.hero-surface::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-image: none;
+}
+
+/* Light mode only: hero grid texture */
+:root[data-theme="light"] .hero-surface::before {
+  background-image:
+    linear-gradient(var(--grid-color) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+  background-size: 52px 52px;
+  mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.65), transparent 80%);
+}
+
+@media (prefers-color-scheme: light) {
+  :root[data-theme="system"] .hero-surface::before {
+    background-image:
+      linear-gradient(var(--grid-color) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+    background-size: 52px 52px;
+    mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.65), transparent 80%);
+  }
+}
+
+/* Canvas layer for animated network background */
+.dark-network-canvas canvas {
+  display: block;
+  opacity: 0.92;
+  mix-blend-mode: screen;
+  filter: saturate(118%);
+}
+
+/* ─────────────────────────────────────────
+   GLASS PANEL — frosted, transparent
+───────────────────────────────────────── */
+.surface-panel {
+  position: relative;
+  background: var(--panel);
+  border: 1px solid var(--panel-border);
+  backdrop-filter: blur(28px) saturate(160%);
+  -webkit-backdrop-filter: blur(28px) saturate(160%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    0 4px 24px rgba(0, 0, 0, 0.15);
+}
+
+/* ─────────────────────────────────────────
+   GLOW CARD — spinning gradient border + inner glass
+   Only visible in dark mode
+───────────────────────────────────────── */
+.glow-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.glow-card::before {
+  content: "";
+  position: absolute;
+  inset: -140%;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg,
+    transparent 155deg,
+    rgba(var(--accent-rgb), 0.85) 168deg,
+    rgba(var(--accent-rgb), 0.85) 180deg,
+    rgba(var(--accent-rgb), 0.85) 192deg,
+    transparent 205deg,
+    transparent 360deg
+  );
+  animation: spin-border 8s linear infinite;
+  opacity: 0.65;
+}
+
+/* Disable spinning border in light mode */
+:root[data-theme="light"] .glow-card::before {
+  opacity: 0;
+  animation: none;
+}
+
+@media (prefers-color-scheme: light) {
+  :root[data-theme="system"] .glow-card::before {
+    opacity: 0;
+    animation: none;
+  }
+}
+
+.glow-card::after {
+  content: "";
+  position: absolute;
+  inset: 1px;
+  border-radius: inherit;
+  /* Dark: semi-transparent so ambient glow shows through (glass effect) */
+  background: rgba(8, 8, 8, 0.90);
+  backdrop-filter: blur(24px) saturate(150%);
+}
+
+:root[data-theme="light"] .glow-card::after {
+  background: rgba(255, 255, 255, 0.85);
+}
+
+@media (prefers-color-scheme: light) {
+  :root[data-theme="system"] .glow-card::after {
+    background: rgba(255, 255, 255, 0.85);
+  }
+}
+
+.glow-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Inner glow behind card border */
+.glow-card-inner-glow {
+  box-shadow:
+    inset 0 0 20px rgba(var(--accent-rgb), 0.06),
+    0 0 32px rgba(var(--accent-rgb), 0.08);
+}
+
+/* ─────────────────────────────────────────
+   SKILL CARDS — dark in dark mode, glass in light mode
+───────────────────────────────────────── */
+.skill-card-dark {
+  background: rgba(8, 8, 8, 0.85);
+  border: 1px solid rgba(var(--accent-rgb), 0.16);
+  border-radius: 0 !important;
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(42px) saturate(185%);
+  -webkit-backdrop-filter: blur(42px) saturate(185%);
+  will-change: backdrop-filter;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    0 12px 34px rgba(0, 0, 0, 0.28);
+}
+
+.skill-card-dark::before {
+  content: none !important;
+  animation: none !important;
+  background: none !important;
+}
+
+.skill-card-dark::after {
+  content: none !important;
+}
+
+.skill-card-dark > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Light mode: switch to glass panel */
+:root[data-theme="light"] .skill-card-dark {
+  background: var(--panel);
+  border-color: var(--panel-border);
+  backdrop-filter: blur(28px) saturate(160%);
+  -webkit-backdrop-filter: blur(28px) saturate(160%);
+}
+
+:root[data-theme="light"] .skill-card-dark::after {
+  content: none;
+}
+
+@media (prefers-color-scheme: light) {
+  :root[data-theme="system"] .skill-card-dark {
+    background: var(--panel);
+    border-color: var(--panel-border);
+    backdrop-filter: blur(28px) saturate(160%);
+    -webkit-backdrop-filter: blur(28px) saturate(160%);
+  }
+
+  :root[data-theme="system"] .skill-card-dark::after {
+    content: none;
+  }
+}
+
+/* ─────────────────────────────────────────
+   BUTTON SYSTEM
+   Primary: 1px gradient border via p-px wrapper
+───────────────────────────────────────── */
+.btn-wrap {
+  border-radius: var(--ui-radius);
+}
+
+.btn-inner {
+  background: #080808;
+  border-radius: calc(var(--ui-radius) - 1px);
+}
+
+:root[data-theme="light"] .btn-inner {
+  background: #0d0d0d;
+}
+
+@media (prefers-color-scheme: light) {
+  :root[data-theme="system"] .btn-inner {
+    background: #0d0d0d;
+  }
+}
+
+/* Light mode: static border instead of spinning gradient */
+:root[data-theme="light"] .btn-wrap {
+  padding: 0;
+  border: 1px solid rgba(0, 0, 0, 0.18);
+}
+
+@media (prefers-color-scheme: light) {
+  :root[data-theme="system"] .btn-wrap {
+    padding: 0;
+    border: 1px solid rgba(0, 0, 0, 0.18);
+  }
+}
+
+:root[data-theme="light"] .btn-inner {
+  border-radius: var(--ui-radius);
+}
+
+@media (prefers-color-scheme: light) {
+  :root[data-theme="system"] .btn-inner {
+    border-radius: var(--ui-radius);
+  }
+}
+
+/* Hide spinning gradient in light mode */
+:root[data-theme="light"] .btn-gradient-spin {
+  display: none;
+}
+
+@media (prefers-color-scheme: light) {
+  :root[data-theme="system"] .btn-gradient-spin {
+    display: none;
+  }
+}
+
+.btn-plain {
+  border-radius: var(--ui-radius);
+}
+
+/* ─────────────────────────────────────────
+   NAV BACKGROUND STATES
+───────────────────────────────────────── */
+.nav-at-top {
+  background: var(--background);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+/* Light mode: nav must be pure white (--background is #f6f6f6 body grey) */
+:root[data-theme="light"] .nav-at-top {
+  background: #ffffff;
+}
+
+@media (prefers-color-scheme: light) {
+  :root[data-theme="system"] .nav-at-top {
+    background: #ffffff;
+  }
+}
+
+.nav-scrolled-glass {
+  background: transparent;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.14),
+    0 10px 34px rgba(0, 0, 0, 0.3);
+}
+
+:root[data-theme="light"] .nav-scrolled-glass {
+  background: transparent;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.95),
+    0 8px 24px rgba(0, 0, 0, 0.11);
+}
+
+@media (prefers-color-scheme: light) {
+  :root[data-theme="system"] .nav-scrolled-glass {
+    background: transparent;
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.95),
+      0 8px 24px rgba(0, 0, 0, 0.11);
+  }
+}
+
+/* Additional menu glow band (dark mode only) */
+.nav-red-shadow {
+  opacity: 0;
+}
+
+:root[data-theme="dark"] .nav-red-shadow {
+  opacity: 1;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root[data-theme="system"] .nav-red-shadow {
+    opacity: 1;
+  }
+}
+
+/* ─────────────────────────────────────────
+   FOOTER SURFACE — slightly darker than body
+───────────────────────────────────────── */
+.footer-surface {
+  background: var(--footer-bg);
+}
+
+/* ─────────────────────────────────────────
+   MARQUEE
+───────────────────────────────────────── */
+.marquee-track {
+  animation: marquee 38s linear infinite;
+}
+
+.marquee-track-fast {
+  animation: marquee 40s linear infinite;
+}
+
+/* ─────────────────────────────────────────
+   FORM FIELDS
+───────────────────────────────────────── */
+.field-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.field-label {
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.field-input {
+  width: 100%;
+  border-radius: 0;
+  border: 1px solid var(--panel-border);
+  background: var(--input-bg);
+  color: var(--foreground);
+  padding: 0.7rem 0.85rem;
+  font: inherit;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.field-input:focus {
+  outline: none;
+  border-color: rgba(var(--accent-rgb), 0.6);
+  box-shadow: 0 0 0 2px rgba(var(--accent-rgb), 0.15);
+}
+
+.field-select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  padding-right: 2.5rem;
+  background-image:
+    linear-gradient(45deg, transparent 50%, rgba(var(--accent-rgb), 0.85) 50%),
+    linear-gradient(135deg, rgba(var(--accent-rgb), 0.85) 50%, transparent 50%);
+  background-position:
+    calc(100% - 1.15rem) calc(50% - 0.12rem),
+    calc(100% - 0.82rem) calc(50% - 0.12rem);
+  background-size: 0.4rem 0.4rem, 0.4rem 0.4rem;
+  background-repeat: no-repeat;
+}
+
+.field-link {
+  display: inline-flex;
+  border-radius: var(--ui-radius);
+  border: 1px solid var(--panel-border);
+  padding: 0.6rem 0.85rem;
+  font-size: 0.875rem;
+  color: var(--link-soft);
+  transition: border-color 0.25s ease, color 0.25s ease;
+}
+
+.field-link:hover {
+  border-color: rgba(var(--accent-rgb), 0.5);
+  color: var(--accent);
+}
+
+/* ─────────────────────────────────────────
+   TIMELINE (experience)
+───────────────────────────────────────── */
+.timeline-line {
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgba(var(--accent-rgb), 0.5) 10%,
+    rgba(var(--accent-rgb), 0.3) 85%,
+    transparent
+  );
+}
+
+.timeline-dot {
+  background: rgba(var(--accent-rgb), 1);
+  box-shadow: 0 0 0 3px rgba(var(--accent-rgb), 0.2), 0 0 12px rgba(var(--accent-rgb), 0.4);
+}
+
+/* ─────────────────────────────────────────
+   CODE ANIMATION
+───────────────────────────────────────── */
+.typewriter-cursor::after {
+  content: "▌";
+  animation: blink 1s step-end infinite;
+  color: rgba(var(--accent-rgb), 0.85);
+}
+
+/* ─────────────────────────────────────────
+   NODE PULSE / STATUS PING
+───────────────────────────────────────── */
+.node-pulse {
+  animation: node-pulse 2.6s ease-in-out infinite;
+}
+
+.status-ping {
+  animation: status-ping 2.2s ease-in-out infinite;
+}
+
+.chart-line {
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  animation: chart-draw 2.5s ease-out forwards;
+}
+
+/* ─────────────────────────────────────────
+   KEYFRAMES
+───────────────────────────────────────── */
+@keyframes spin-border {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+@keyframes node-pulse {
+  0%, 100% { opacity: 0.35; transform: scale(0.92); }
+  50% { opacity: 1; transform: scale(1.08); }
+}
+
+@keyframes status-ping {
+  0%, 100% { opacity: 0.45; }
+  50% { opacity: 1; box-shadow: 0 0 0 5px rgba(var(--accent-rgb), 0.18); }
+}
+
+@keyframes chart-draw {
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes float-gentle {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+@keyframes btn-glow {
+  0%, 100% { box-shadow: 0 0 0 1px rgba(255,255,255,0.09), 0 0 14px rgba(244,63,94,0.18); }
+  50%       { box-shadow: 0 0 0 1px rgba(255,255,255,0.13), 0 0 28px rgba(244,63,94,0.38); }
+}
+
+/* ─────────────────────────────────────────
+   MOBILE
+───────────────────────────────────────── */
+@media (max-width: 768px) {
+  .marquee-track,
+  .marquee-track-fast { animation-duration: 28s; }
+}
+
+/* ─────────────────────────────────────────
+   DARK MODE — btn border outline + pulse glow
+───────────────────────────────────────── */
+:root[data-theme="dark"] .btn-wrap {
+  box-shadow: 0 0 0 1px rgba(255,255,255,0.09);
+  animation: btn-glow 3s ease-in-out infinite;
+}
+
+:root[data-theme="dark"] .btn-wrap:hover {
+  box-shadow: 0 0 0 1px rgba(244,63,94,0.5), 0 0 36px rgba(244,63,94,0.65) !important;
+  animation-play-state: paused;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root[data-theme="system"] .btn-wrap {
+    box-shadow: 0 0 0 1px rgba(255,255,255,0.09);
+    animation: btn-glow 3s ease-in-out infinite;
+  }
+
+  :root[data-theme="system"] .btn-wrap:hover {
+    box-shadow: 0 0 0 1px rgba(244,63,94,0.5), 0 0 36px rgba(244,63,94,0.65) !important;
+    animation-play-state: paused;
+  }
+}
+
+/* ─────────────────────────────────────────
+   GLOW PULSE — for non-square cards (education)
+───────────────────────────────────────── */
+.glow-card-pulse {
+  animation: glow-pulse 3s ease-in-out infinite;
+}
+
+:root[data-theme="light"] .glow-card-pulse {
+  animation: none;
+}
+
+@media (prefers-color-scheme: light) {
+  :root[data-theme="system"] .glow-card-pulse {
+    animation: none;
+  }
+}
+
+@keyframes glow-pulse {
+  0%, 100% { box-shadow: 0 0 0 1px rgba(244, 63, 94, 0.15), 0 0 12px rgba(244, 63, 94, 0.04); }
+  50% { box-shadow: 0 0 0 1px rgba(244, 63, 94, 0.5), 0 0 22px rgba(244, 63, 94, 0.12); }
+}
+
+/* ─────────────────────────────────────────
+   FAQ / CONTACT — no border, no radius on dark mode panels
+───────────────────────────────────────── */
+:root[data-theme="dark"] .panel-borderless,
+:root[data-theme="dark"] .panel-borderless.surface-panel {
+  border-color: transparent;
+  border-radius: 0 !important;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root[data-theme="system"] .panel-borderless,
+  :root[data-theme="system"] .panel-borderless.surface-panel {
+    border-color: transparent;
+    border-radius: 0 !important;
+  }
+}
+
+/* ─────────────────────────────────────────
+   FOOTER LINK HOVER — bold + shift right
+───────────────────────────────────────── */
+.footer-link {
+  display: inline-block;
+  font-size: 0.75rem;
+  color: var(--muted);
+  transition: transform 0.2s ease, font-weight 0.1s, color 0.2s;
+}
+
+.footer-link:hover {
+  color: var(--foreground);
+  font-weight: 600;
+  transform: translateX(4px);
+}
+
+/* ─────────────────────────────────────────
+   HERO SOCIAL — glow effect in dark mode
+───────────────────────────────────────── */
+.hero-social {
+  transition: color 0.2s, filter 0.2s;
+}
+
+:root[data-theme="dark"] .hero-social:hover {
+  color: rgba(244,63,94,0.85) !important;
+  filter: drop-shadow(0 0 10px rgba(244,63,94,0.55));
+}
+
+@media (prefers-color-scheme: dark) {
+  :root[data-theme="system"] .hero-social:hover {
+    color: rgba(244,63,94,0.85) !important;
+    filter: drop-shadow(0 0 10px rgba(244,63,94,0.55));
+  }
+}
+
+/* ─────────────────────────────────────────
+   REDUCED MOTION
+───────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+
+  .marquee-track,
+  .marquee-track-fast,
+  .glow-card::before,
+  .skill-card-dark::before,
+  .node-pulse,
+  .status-ping,
+  .chart-line,
+  .typewriter-cursor::after,
+  .btn-wrap {
+    animation: none !important;
+  }
 }
